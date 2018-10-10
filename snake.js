@@ -16,36 +16,32 @@ var dirY = 0;
 var points = 0;
 var speed = 1;
 
-try {
-    // clear output
-    process.stdout.write('\x1Bc');
-    // hide cursor
-    process.stderr.write('\x1B[?25l');
 
-    // draw game area
-    cursor.bg.grey();
-    drawHorizontalLine(1, 1, width);
-    drawHorizontalLine(1, height, width);
-    drawVerticalLine(1, 1, height);
-    drawVerticalLine(width, 1, height);
-    cursor.bg.reset();
+// clear output
+process.stdout.write('\x1Bc');
+// hide cursor
+process.stderr.write('\x1B[?25l');
 
-    // handle key press events
-    process.stdin.on('keypress', handleInput);
+// draw game area
+cursor.bg.grey();
+drawHorizontalLine(1, 1, width);
+drawHorizontalLine(1, height, width);
+drawVerticalLine(1, 1, height);
+drawVerticalLine(width, 1, height);
+cursor.bg.reset();
 
-    // set initial position of snake
-    posX = Math.floor(width / 2);
-    posY = Math.floor(height / 2);
+// handle key press events
+process.stdin.on('keypress', handleInput);
 
-    // draw first apple
-    drawApple();
+// set initial position of snake
+posX = Math.floor(width / 2);
+posY = Math.floor(height / 2);
 
-    // start game loop
-    gameLoop();
-} catch (ex) {
-    console.log(ex.toString());
-    quitGame();
-}
+// draw first apple
+drawApple();
+
+// start game loop
+gameLoop();    
 
 function gameLoop() {
     // remove snake at old position
@@ -71,7 +67,7 @@ function gameLoop() {
         //Geschwindigkeit erhöhen
         speed++;
         
-        // draw new apple
+        //da der Apfel gefunden wurde, braucht man jetzt einen neuen
         drawApple();
     }
 
@@ -79,7 +75,7 @@ function gameLoop() {
     drawSnake();
 
     // call gameLoop
-    setTimeout(gameLoop, 1000 / speed);
+    setTimeout(gameLoop, 500/speed);
 }
 
 function quitGame() {
@@ -91,9 +87,7 @@ function quitGame() {
 }
 
 function handleInput(chunk, key) {
-    if (key.name == 'q') {
-        quitGame();
-    } else if (key.name == 'right') {
+    if (key.name == 'right') {
         dirX = 1;
         dirY = 0;
     } else if (key.name == 'left') {
