@@ -125,7 +125,7 @@ function removeSnake() {
 
 //Schlange Zeichnen
 function drawSnake() {
-    cursor.bg.blue();
+    cursor.bg.green();
     drawPoint(posX, posY);
     cursor.bg.reset();
 }
