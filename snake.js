@@ -15,7 +15,13 @@ process.stdin.setRawMode(true);
 var cursor = ansi(process.stdout);
 var width = 20; //Breite von Spielfeld
 var height = 10; //Höhe von Spielfeld
+//posX = -1 links bewegen
+//posX = 0 Bewgen nach oben oder unten abhängig von posY
+//posX = 1 nach rechts Bewegen
 var posX = 0;
+//posY = -1 nach oben Bewegen
+//posY = 0 Bewegung nach links oder rechts duch posX
+//posY = 1 nach unten Bewegen
 var posY = 0;
 var applePosX = 0;
 var applePosY = 0;
@@ -26,10 +32,10 @@ var speed = 1;
 
 //Spielbereich zeichnen
 cursor.bg.grey();
-drawHorizontalLine(1, 1, width);
-drawHorizontalLine(1, height, width);
-drawVerticalLine(1, 1, height);
-drawVerticalLine(width, 1, height);
+drawHorizontalLine(1, 1, width);//oberer Rahmen
+drawHorizontalLine(1, height, width);//unterer Rahmen
+drawVerticalLine(1, 1, height);//linker Rahmen
+drawVerticalLine(width, 1, height);//rechter Rahmen
 cursor.bg.reset();
 
 //Eingabemöglichkeit
@@ -48,14 +54,15 @@ drawApple();
 gameLoop();    
 
 function gameLoop() {
-    // remove snake at old position
+    //Schlange von alter position löschen
+    //damit die Schlange nicht länger wird
     removeSnake(posX, posY);
 
-    // set new position
+    //Auf neu positon setzen
     posX = posX + dirX;
     posY = posY + dirY;
 
-    // check new position
+    //Schauen ob neue position erlaubt ist
     if (posX == 1 || posX == width || posY == 1 || posY == height) {
         cursor.red();
         cursor.bg.white();
@@ -67,21 +74,20 @@ function gameLoop() {
     if (posX == applePosX && posY == applePosY) {
         //Punkte erhöhen
         points++;
-
         //Geschwindigkeit erhöhen
         speed++;
-        
         //da der Apfel gefunden wurde, braucht man jetzt einen neuen
         drawApple();
     }
 
-    // draw snake at new position
+    //Schlange auf neuer Positon zeichnen
     drawSnake();
 
-    // call gameLoop
+    //Aufrufen von gameLoop mit überagabe der Geschwindigkeit
     setTimeout(gameLoop, 2000/speed);
 }
 
+//Spiel beenden
 function quitGame() {
     cursor.reset();
     cursor.bg.reset();
@@ -89,6 +95,7 @@ function quitGame() {
     process.exit();
 }
 
+//Input überprüfen zum Steuern
 function handleInput(chunk, key) {
     if (key.name == 'right') {
         dirX = 1;
@@ -105,6 +112,7 @@ function handleInput(chunk, key) {
     }
 }
 
+//Apfel zeichnen
 function drawApple() {
     applePosX = Math.ceil(Math.random() * (width - 2)) + 1;
     applePosY = Math.ceil(Math.random() * (height - 2)) + 1;
@@ -117,6 +125,7 @@ function drawApple() {
     setText(1, height + 3, "Speed: " + speed.toString());
 }
 
+//Schlange löschen
 function removeSnake() {
     cursor.bg.black();
     drawPoint(posX, posY);
@@ -134,18 +143,21 @@ function drawPoint(col, row, char) {
     cursor.goto(col, row).write(' ');
 }
 
+//Rahmen zeichnen
 function drawHorizontalLine(col, row, length) {
     for (var i = 0; i < length; i++) {
         cursor.goto(col + i, row).write(' ');
     }
 }
 
+//Rahmen zeichnen
 function drawVerticalLine(col, row, length) {
     for (var i = 0; i < length; i++) {
         cursor.goto(col, row + i).write(' ');
     }
 }
 
+//Text schreiben mit der Positions übergabe
 function setText(col, row, text) {
     cursor.goto(col, row).write(text);
 }
