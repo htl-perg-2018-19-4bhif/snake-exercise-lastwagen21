@@ -1,0 +1,15 @@
+{
+  "name": "snake-exercise-lastwagen21-master",
+  "version": "1.0.0",
+  "description": "snake-exercise-lastwagen21 created by GitHub Classroom",
+  "main": "snake.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ansi": "^0.3.1",
+    "keypress": "^0.2.1"
+  }
+}
