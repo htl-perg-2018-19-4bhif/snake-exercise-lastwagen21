@@ -1,12 +1,16 @@
 var ansi = require('ansi');
 var keypress = require('keypress');
 
+//Cursor verstecken 
+const cliCursor = require ('cli-cursor');
+cliCursor.hide();
+
 keypress(process.stdin);
 process.stdin.setRawMode(true);
 
 var cursor = ansi(process.stdout);
-var width = 20;
-var height = 10;
+var width = 20; //Breite von Spielfeld
+var height = 10; //Höhe von Spielfeld
 var posX = 0;
 var posY = 0;
 var applePosX = 0;
@@ -16,13 +20,11 @@ var dirY = 0;
 var points = 0;
 var speed = 1;
 
-
 // clear output
 process.stdout.write('\x1Bc');
-// hide cursor
-process.stderr.write('\x1B[?25l');
 
-// draw game area
+
+// Spielbereich zeichnen
 cursor.bg.grey();
 drawHorizontalLine(1, 1, width);
 drawHorizontalLine(1, height, width);
@@ -30,17 +32,19 @@ drawVerticalLine(1, 1, height);
 drawVerticalLine(width, 1, height);
 cursor.bg.reset();
 
-// handle key press events
+// Eingabemöglichkeit
 process.stdin.on('keypress', handleInput);
 
-// set initial position of snake
+// Startposition von der Schlange berechnen
 posX = Math.floor(width / 2);
 posY = Math.floor(height / 2);
 
-// draw first apple
+// ersten Apfel zufällig zeichnen
 drawApple();
 
-// start game loop
+//Starte gameLoop der nur beendet werden kann wenn
+//man das Spiel verliert. Also wenn die 
+//Schlange den Rahmen berührt
 gameLoop();    
 
 function gameLoop() {
