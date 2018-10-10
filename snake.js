@@ -5,6 +5,10 @@ var keypress = require('keypress');
 const cliCursor = require ('cli-cursor');
 cliCursor.hide();
 
+//Clear CLI
+const clear = require('clear');
+clear();
+
 keypress(process.stdin);
 process.stdin.setRawMode(true);
 
@@ -20,11 +24,7 @@ var dirY = 0;
 var points = 0;
 var speed = 1;
 
-// clear output
-process.stdout.write('\x1Bc');
-
-
-// Spielbereich zeichnen
+//Spielbereich zeichnen
 cursor.bg.grey();
 drawHorizontalLine(1, 1, width);
 drawHorizontalLine(1, height, width);
@@ -32,14 +32,14 @@ drawVerticalLine(1, 1, height);
 drawVerticalLine(width, 1, height);
 cursor.bg.reset();
 
-// Eingabemöglichkeit
+//Eingabemöglichkeit
 process.stdin.on('keypress', handleInput);
 
-// Startposition von der Schlange berechnen
+//Startposition von der Schlange berechnen
 posX = Math.floor(width / 2);
 posY = Math.floor(height / 2);
 
-// ersten Apfel zufällig zeichnen
+//ersten Apfel zufällig zeichnen
 drawApple();
 
 //Starte gameLoop der nur beendet werden kann wenn
@@ -79,13 +79,12 @@ function gameLoop() {
     drawSnake();
 
     // call gameLoop
-    setTimeout(gameLoop, 500/speed);
+    setTimeout(gameLoop, 2000/speed);
 }
 
 function quitGame() {
     cursor.reset();
     cursor.bg.reset();
-    process.stderr.write('\x1B[?25h');
     cursor.goto(1, height + 4);
     process.exit();
 }
