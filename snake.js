@@ -2,7 +2,7 @@ var ansi = require('ansi');
 var keypress = require('keypress');
 
 //Cursor verstecken 
-const cliCursor = require ('cli-cursor');
+const cliCursor = require('cli-cursor');
 cliCursor.hide();
 
 //Clear CLI
@@ -51,7 +51,7 @@ drawApple();
 //Starte gameLoop der nur beendet werden kann wenn
 //man das Spiel verliert. Also wenn die 
 //Schlange den Rahmen berührt
-gameLoop();    
+gameLoop();
 
 function gameLoop() {
     //Schlange von alter position löschen
@@ -84,7 +84,7 @@ function gameLoop() {
     drawSnake();
 
     //Aufrufen von gameLoop mit überagabe der Geschwindigkeit
-    setTimeout(gameLoop, 2000/speed);
+    setTimeout(gameLoop, 2000 / speed);
 }
 
 //Spiel beenden
